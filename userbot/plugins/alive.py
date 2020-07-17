@@ -9,7 +9,7 @@ from userbot.utils import admin_cmd
 from telethon import version
 from platform import python_version, uname
 
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@Sur_vivor"
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@Smart_S54"
 
 ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
 CAT_IMG = ALIVE_PIC
