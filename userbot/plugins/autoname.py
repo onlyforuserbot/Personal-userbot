@@ -15,7 +15,7 @@ import shutil
 
 
 DEL_TIME_OUT = 60
-DEFAULTUSER = str(AUTONAME) if AUTONAME else "cat" 
+DEFAULTUSER = str(AUTONAME) if AUTONAME else "🅡@🅙🅥€€🅡 ``𝓥𝓮ℓ๏cΐ𝓽𝔂" 
 
 
 @borg.on(admin_cmd(pattern="autoname"))  # pylint:disable=E0602
