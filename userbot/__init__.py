@@ -50,7 +50,20 @@ if bool(ENV):
             "Please remove the line mentioned in the first hashtag from the config.env file"
         )
         quit(1)
+        
+  # Logging channel/group configuration.
+    BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID", None)
+    try:
+        BOTLOG_CHATID = int(BOTLOG_CHATID)
+    except:
+        pass
 
+    # Userbot logging feature switch.
+    BOTLOG = sb(os.environ.get("BOTLOG", "False"))
+    LOGSPAMMER = sb(os.environ.get("LOGSPAMMER", "False"))
+    
+    # Bleep Blop, this is a bot ;)
+    PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
     CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
 
 
