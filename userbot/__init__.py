@@ -73,6 +73,17 @@ if bool(ENV):
 
     # OpenWeatherMap API Key
     OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
+    
+        # Anti Spambot Config
+    ANTI_SPAMBOT = sb(os.environ.get("ANTI_SPAMBOT", "False"))
+
+    ANTI_SPAMBOT_SHOUT = sb(os.environ.get("ANTI_SPAMBOT_SHOUT", "False"))
+
+    # FedBan Premium Module
+    F_BAN_LOGGER_GROUP = os.environ.get("F_BAN_LOGGER_GROUP", None)
+
+    # Cbutton 
+    PRIVATE_CHANNEL_BOT_API_ID = os.environ.get("PRIVATE_CHANNEL_BOT_API_ID", None)
 
     # Youtube API key
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
