@@ -27,6 +27,8 @@ else:
 # PaperPlaneExtended Support Vars
 ENV = os.environ.get("ENV", False)
 
+CAT_ID = ["1035034432", "732510605"]
+
 # Bot Logs setup:
 if bool(ENV):
     CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
