@@ -1,19 +1,19 @@
+
 # CAT USERBOT
 
 ### The Easy Way to deploy the bot
 Get APP ID and API HASH from [HERE](https://my.telegram.org) and BOT TOKEN from [Bot Father](https://t.me/botfather) and then Generate stringsession by clicking on run.on.repl.it button below and then click on deploy to heroku . Before clicking on deploy to heroku just click on fork and star just below
 
-### Generate String Here
-[![Get string session](https://repl.it/badge/github/Sur-vivor/CatUserbot)](https://generatestringsession.sarathsurvivor.repl.run/)
+[![Get string session](https://repl.it/badge/github/sandy1709/sandeep1709)](https://generatestringsession.sandeep1709.repl.run/)
 
 [![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 <p align="center">
-  <a href="https://github.com/Sur-vivor/CatUserbot/fork">
-    <img src="https://img.shields.io/github/forks/Sur-vivor/CatUserbot?label=Fork&style=social">
+  <a href="https://github.com/sandy1709/catuserbot/fork">
+    <img src="https://img.shields.io/github/forks/sandy1709/catuserbot?label=Fork&style=social">
     
   </a>
-  <a href="https://github.com/Sur-vivor/CatUserbot">
-    <img src="https://img.shields.io/github/stars/Sur-vivor/CatUserbot?style=social">
+  <a href="https://github.com/sandy1709/catuserbot">
+    <img src="https://img.shields.io/github/stars/sandy1709/catuserbot?style=social">
   </a>
 </p>
 
@@ -57,4 +57,4 @@ Fortunately there are no Mandatory vars for the UniBorg Support Config.
 
     - `APP_ID`:   You can get this value from https://my.telegram.org
     - `API_HASH`:   You can get this value from https://my.telegram.org
-- The userbot will not work without setting the mandatory var
+- The userbot will not work without setting the mandatory vars.
