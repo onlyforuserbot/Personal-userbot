@@ -104,4 +104,4 @@ CMD_HELP.update({
 \n\n.clearwelcome\
 \nUsage: Deletes the welcome note for the current chat.\
 "
-})
+})        

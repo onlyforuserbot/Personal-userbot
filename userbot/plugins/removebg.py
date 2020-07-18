@@ -22,9 +22,9 @@ import os
 import requests
 from telethon import events
 from userbot.utils import progress, admin_cmd
+from userbot import CMD_HELP
 
-
-@borg.on(admin_cmd("rmbg ?(.*)"))
+@borg.on(admin_cmd(pattern="rmbg ?(.*)"))
 async def _(event):
     HELP_STR = "`.rmbg` as reply to a media, or give a link as an argument to this command"
     if event.fwd_from:
@@ -49,11 +49,11 @@ async def _(event):
             await event.edit(str(e))
             return
         else:
-            await event.edit("Removing BG...")
+            await event.edit("sending to ReMove.BG")
             output_file_name = ReTrieveFile(downloaded_file_name)
             os.remove(downloaded_file_name)
     elif input_str:
-        await event.edit("Removing BG...")
+        await event.edit("sending to ReMove.BG")
         output_file_name = ReTrieveURL(input_str)
     else:
         await event.edit(HELP_STR)
@@ -72,7 +72,7 @@ async def _(event):
             )
         end = datetime.now()
         ms = (end - start).seconds
-        await event.edit("Removed dat annoying BackGround in {} seconds".format(ms))
+        await event.edit("Removed dat annoying Backgroup in {} seconds".format(ms))
     else:
         await event.edit("ReMove.BG API returned Errors. Please report to @catuserbot_support\n`{}".format(output_file_name.content.decode("UTF-8")))
 
@@ -111,3 +111,10 @@ def ReTrieveURL(input_url):
         stream=True
     )
     return r
+
+
+CMD_HELP.update({
+    "removebg":
+    ".rmbg <Link to Image> or reply to any image (Warning: does not work on stickers.)\
+\nUsage: Removes the background of images, using remove.bg API"
+})

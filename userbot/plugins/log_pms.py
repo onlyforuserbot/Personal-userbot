@@ -82,7 +82,7 @@ async def monito_p_m_s(event):
                 print(exc_type, fname, exc_tb.tb_lineno)
                 print(e) 
 
-@borg.on(admin_cmd(pattern="enlog(?: |$)(.*)"))
+@borg.on(admin_cmd(pattern="log(?: |$)(.*)"))
 async def set_no_log_p_m(event):
     if Config.PM_LOGGR_BOT_API_ID is not None:
         reason = event.pattern_match.group(1)
@@ -109,8 +109,8 @@ CMD_HELP.update({"log_pms": "`.save` :\
       \nUSAGE: saves taged message in private group .\
       \n\n `.kickme`:\
       \nUSAGE: kicks you from the chat where you used this\
-      \n\n`.enlog`:\
+      \n\n`.log`:\
       \nUSAGE:By default will log all private chat messages if you use .nolog and want to log again then you need to use this\
       \n\n`.nolog`:\
       \nUSAGE:to stops logging from a private chat "
-})
+})                 

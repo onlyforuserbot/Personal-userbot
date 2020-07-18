@@ -11,6 +11,7 @@ from userbot import CMD_HELP
 from userbot.utils import admin_cmd, errors_handler
 from userbot.uniborgConfig import Config
 
+
 BOTLOG = True
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
@@ -40,7 +41,7 @@ async def fastpurger(purg):
         await purg.client.delete_messages(chat, msgs)
     done = await purg.client.send_message(
         purg.chat_id,
-        "Fast purge complete!\nPurged" + str(count) + " messages.",
+        "Fast purge complete!\nPurged " + str(count) + " messages.",
     )
 
     if BOTLOG:

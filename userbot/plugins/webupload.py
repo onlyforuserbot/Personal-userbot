@@ -49,4 +49,4 @@ CMD_HELP.update({
     ".webupload ?(.+?|) (?:--)(anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles\
     \nexample: `.webupload --anonfiles` tag this to a file\
 "
-})
+})  		

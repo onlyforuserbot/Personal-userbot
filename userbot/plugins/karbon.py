@@ -436,8 +436,11 @@ async def carbon_api(e):
                     "yeti",
                     "zenburn",
 ]
+
    CUNTHE = random.randint(0, len(THEME) - 1)
    The = THEME[CUNTHE]
+
+
    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
  
    #await e.edit("⬜⬜⬜⬜⬜")
@@ -460,18 +463,21 @@ async def carbon_api(e):
      chrome_options.add_argument('--disable-gpu')
      prefs = {'download.default_directory' : './'}
      chrome_options.add_experimental_option('prefs', prefs)
+
      driver = webdriver.Chrome(executable_path=Config.CHROME_DRIVER, options=chrome_options)
      driver.get(url)
      download_path = './'
      driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
      params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_path}}
      command_result = driver.execute("send_command", params)
+
      driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
      sleep(5) # this might take a bit.
      driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
      sleep(5)
      driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
      sleep(5) #Waiting for downloading
+
      file = './carbon.png'
      photo = Image.open(file)
      photo.save(kpp)

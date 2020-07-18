@@ -276,4 +276,4 @@ CMD_HELP.update({
     "upload":
     ".upload <path in server>\
 \nUsage: Uploads a locally stored file to the chat."
-})
+})        

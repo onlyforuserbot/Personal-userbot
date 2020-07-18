@@ -227,4 +227,4 @@ CMD_HELP.update({
     "and let you select one."
     ".time \
     \n USAGE : shows current default time you can change by changing TZ in heroku vars"
-})
+})    

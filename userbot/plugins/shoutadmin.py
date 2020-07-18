@@ -1,6 +1,6 @@
 """Emoji
 Available Commands:
-.sadmin"""
+.admem"""
 
 from telethon import events
 import asyncio

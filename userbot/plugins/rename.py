@@ -26,7 +26,7 @@ from pySmartDL import SmartDL
 
 
 
-thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "thumb_image.jpg"
 
 
 def get_video_thumb(file, output=None, width=90):
@@ -74,7 +74,7 @@ async def _(event):
         await event.edit("Syntax // `.rename file.name` as reply to a Telegram media")
 
 
-@borg.on(admin_cmd(pattern="rnupload (.*)"))
+@borg.on(admin_cmd(pattern="rnup (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -104,7 +104,6 @@ async def _(event):
         ms_one = (end - start).seconds
         if os.path.exists(downloaded_file_name):
             c_time = time.time()
-            mone = await event.edit("Processing ...")
             await borg.send_file(
                 event.chat_id,
                 downloaded_file_name,
@@ -114,7 +113,7 @@ async def _(event):
                 reply_to=event.message.id,
                 thumb=thumb,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
+                    progress(d, t, event, c_time, "trying to upload")
                 )
                 
             )
