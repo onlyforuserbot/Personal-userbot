@@ -12,6 +12,7 @@ from requests import get
 import time
 from userbot.helpers import fonts as fonts
 from userbot.helpers import functions as catdef
+from userbot.helpers import memeshelper as memes
 
 StartTime = time.time()
 catversion = "2.5.2"
