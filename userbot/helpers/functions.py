@@ -6,6 +6,7 @@ from telethon import events
 from emoji import get_emoji_regexp
 from PIL import Image
 from validators.url import url
+from telethon.tl.types import Channel
 
 async def get_readable_time(seconds: int) -> str:
     count = 0
@@ -34,9 +35,18 @@ async def get_readable_time(seconds: int) -> str:
 
     return up_time
 
+#gban
+async def admin_groups(cat):
+    catgroups = []
+    async for dialog in cat.client.iter_dialogs():
+        entity = dialog.entity  
+        if isinstance(entity, Channel):
+            if entity.megagroup:
+                if entity.creator or entity.admin_rights:
+                   catgroups.append(entity.id)
+    return catgroups
 
 #for getmusic
-
 async def catmusic(cat , QUALITY):
   search = cat
   headers = {'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'}
@@ -69,8 +79,8 @@ async def catmusicvideo(cat):
 # for stickertxt
 
 async def waifutxt(text, chat_id ,reply_to_id , bot, borg):
-    animus = [0, 1, 2, 3, 4, 7, 9, 10, 11, 15, 20, 22, 27, 29, 31, 32, 33, 34, 36, 37, 38, 
-              40, 41, 42, 43, 44, 45, 47, 48, 51, 52, 53, 54, 55, 56, 57, 58, 60, 61, 62, 63]
+    animus = [0, 1, 2, 3, 4, 9, 15, 20, 22, 27, 29, 32, 33, 34, 37, 38, 
+              41, 42, 44, 45, 47, 48, 51, 52, 53, 55, 56, 57, 58, 61, 62, 63]
     sticcers = await bot.inline_query(
         "stickerizerbot", f"#{choice(animus)}{text}")
     cat = await sticcers[0].click( "me" ,
@@ -162,4 +172,4 @@ async def tweets(text1,text2):
             f.write(requests.get(sandy).content)
         img = Image.open("temp.png").convert("RGB")
         img.save("temp.webp", "webp")    
-        return "temp.webp"
+        return "temp.webp"      

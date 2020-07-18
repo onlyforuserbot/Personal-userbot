@@ -442,3 +442,4 @@ def sudo_cmd(pattern=None, **args):
     is_message_enabled = True
 
     return events.NewMessage(**args)
+
