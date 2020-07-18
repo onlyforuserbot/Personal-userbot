@@ -100,4 +100,4 @@ CMD_HELP.update({
     "download":
     ".download <link|filename> or reply to media\
 \nUsage: Downloads file to the server."
-})
+})        

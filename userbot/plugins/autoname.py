@@ -15,7 +15,7 @@ import shutil
 
 
 DEL_TIME_OUT = 60
-DEFAULTUSER = str(AUTONAME) if AUTONAME else "Survivor" 
+DEFAULTUSER = str(AUTONAME) if AUTONAME else "cat" 
 
 
 @borg.on(admin_cmd(pattern="autoname"))  # pylint:disable=E0602
@@ -24,7 +24,7 @@ async def _(event):
     while True:
         DM = time.strftime("%d-%m-%y")
         HM = time.strftime("%H:%M")
-        name = f"🕒{HM}||› ⚡️{DEFAULTUSER}⚡️ ‹||📆 {DM}"
+        name = f"⌚️ {HM}||›  {DEFAULTUSER} ‹||📅 {DM}"
         logger.info(name)
         try:
             await borg(functions.account.UpdateProfileRequest(  # pylint:disable=E0602
@@ -50,4 +50,4 @@ CMD_HELP.update({
     ".autoname\
     \n usage:for time along name to work this you must set `AUTONAME`in the heroku vars first \
 "
-})
+})  

@@ -57,4 +57,4 @@ async def img_sampler(event):
     
 CMD_HELP.update({"images": "`.img <Name>` or `.img (replied message)`\
     \nUSAGE: do google image search and sends 5 images." 
-})
+})    

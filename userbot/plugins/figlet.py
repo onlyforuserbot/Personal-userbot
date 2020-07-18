@@ -34,4 +34,4 @@ CMD_HELP.update({
     \n USAGE:the types are slant, 3D , 5line , alpha , banner ,  doh ,  iso ,  letter , allig , dotm , bubble , bulb , digi\
     \n NOTE: Nospace must be given after : and type\
     \nEXAMPLE : `.figlet hello :digi`"
-})
+})    

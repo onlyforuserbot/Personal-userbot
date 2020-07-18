@@ -4,7 +4,17 @@ import random, re, asyncio
 from userbot import CMD_HELP
 from collections import deque
 
-@borg.on(admin_cmd(pattern=r"lul$"))
+@borg.on(admin_cmd(pattern="think$", outgoing=True))
+async def _(event):
+	if event.fwd_from:
+		return
+	deq = deque(list("🤔🧐🤔🧐🤔🧐"))
+	for _ in range(48):
+		await asyncio.sleep(0.1)
+		await event.edit("".join(deq))
+		deq.rotate(1)
+		
+@borg.on(admin_cmd(pattern=r"lmao$"))
 async def _(event):
 	if event.fwd_from:
 		return
@@ -21,7 +31,7 @@ async def _(event):
 		return
 	deq = deque(list("😁☹️😁☹️😁☹️😁"))
 	for _ in range(48):
-		await asyncio.sleep(0.1)
+		await asyncio.sleep(0.4)
 		await event.edit("".join(deq))
 		deq.rotate(1)
 		
@@ -85,16 +95,6 @@ async def _(event):
 		    await asyncio.sleep(0.1)
 		    await event.edit("".join(deq))
 		    deq.rotate(1)
-			
-@borg.on(admin_cmd(pattern=r"candy$"))
-async def _(event):
-	if event.fwd_from:
-		return
-	deq = deque(list("🍦🍧🍩🍪🎂🍰🧁🍫🍬🍭"))
-	for _ in range(48):
-		await asyncio.sleep(0.1)
-		await event.edit("".join(deq))
-		deq.rotate(1)			
         
 @borg.on(admin_cmd(pattern=f"smoon$", outgoing=True))
 async def _(event):
@@ -163,34 +163,3 @@ async def _(event):
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
             await event.edit(animation_chars[i % 32])
-
-@borg.on(admin_cmd(pattern=f"clown$", outgoing=True))
-async def _(event):
-    if event.fwd_from:
-        return
-    animation_interval = 0.50
-    animation_ttl = range(0, 16)
-    animation_chars = [
-        
-
-            "COMMAND CREATE BY @Sur_vivor",
-            "🤡️",
-            "🤡🤡",
-            "🤡🤡🤡",
-            "🤡🤡🤡🤡",
-            "🤡🤡🤡🤡🤡",
-            "🤡🤡🤡🤡🤡🤡",    
-            "🤡🤡🤡🤡🤡",
-            "🤡🤡🤡🤡",
-            "🤡🤡🤡",
-            "🤡🤡",
-            "🤡",
-            "You",
-            "You Are",
-            "You Are A",
-            "You Are A Clown 🤡"
-        ]
-
-    for i in animation_ttl:
-            await asyncio.sleep(animation_interval)
-            await event.edit(animation_chars[i % 16])

@@ -13,7 +13,7 @@ from pySmartDL import SmartDL
 import shutil
 
 
-FONT_FILE_TO_USE = "userbot/helpers/styles/digital.ttf"
+FONT_FILE_TO_USE = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 @borg.on(admin_cmd(pattern="autopic$"))
 async def autopic(event):
@@ -29,11 +29,11 @@ async def autopic(event):
         shutil.copy(downloaded_file_name, photo)
         im = Image.open(photo)
         file_test = im.rotate(counter, expand=False).save(photo, "PNG")
-        current_time = datetime.now().strftime("  %H:%M\n%d.%m.%y")
+        current_time = datetime.now().strftime("⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡ \n  Time: %H:%M \n  Date: %d.%m.%y \n⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡")
         img = Image.open(photo)
         drawn_text = ImageDraw.Draw(img)
-        fnt = ImageFont.truetype(FONT_FILE_TO_USE, 100)
-        drawn_text.text((350, 350), current_time, font=fnt, fill=(255, 255, 255))
+        fnt = ImageFont.truetype(FONT_FILE_TO_USE, 30)
+        drawn_text.text((95, 250), current_time, font=fnt, fill=(124, 252, 0))
         img.save(photo)
         file = await bot.upload_file(photo)  # pylint:disable=E0602
         try:
@@ -53,4 +53,4 @@ CMD_HELP.update({
 \n **USAGE:** Rotating image along with the time on it .\
 \n for working this you must set `DOWNLOAD_PFP_URL_CLOCK` in the heroku vars first with telegraph link of required image\
 "
-})
+})          

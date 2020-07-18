@@ -8,7 +8,8 @@ Userbot module to help you manage a group
 
 from asyncio import sleep
 from os import remove
-
+from userbot.plugins.sql_helper.mute_sql import is_muted, mute, unmute
+import asyncio
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
                              UserAdminInvalidError)
@@ -17,24 +18,24 @@ from telethon.errors.rpcerrorlist import (UserIdInvalidError,
 from telethon.tl.functions.channels import (EditAdminRequest,
                                             EditBannedRequest,
                                             EditPhotoRequest)
+from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest, GetDialogsRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto)
 
 from userbot import CMD_HELP, bot 
-from userbot.utils import register, errors_handler, admin_cmd
+from userbot.utils import register, errors_handler, admin_cmd,sudo_cmd
 from userbot.uniborgConfig import Config
 from telethon import events, errors, functions, types
 
 BOTLOG = True
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
-
 # =================== CONSTANT ===================
 PP_TOO_SMOL = "`The image is too small`"
 PP_ERROR = "`Failure while processing the image`"
 NO_ADMIN = "`I am not an admin nub nibba!`"
-NO_PERM = "`I don't have sufficient permissions! This is so sed.Alexa play despacito`"
+NO_PERM = "`I don't have sufficient permissions! This is so sed. Alexa play despacito`"
 NO_SQL = "`Running on Non-SQL mode!`"
 
 CHAT_PP_CHANGED = "`Chat Picture Changed`"
@@ -108,9 +109,14 @@ async def set_group_photo(gpic):
             await gpic.edit(PP_TOO_SMOL)
         except ImageProcessFailedError:
             await gpic.edit(PP_ERROR)
+    if BOTLOG:
+        await gpic.client.send_message(
+            BOTLOG_CHATID, "#GROUPPIC\n"
+            f"Group profile pic changed "
+            f"CHAT: {gpic.chat.title}(`{gpic.chat_id}`)")        
 
 
-@borg.on(admin_cmd(pattern=r"promote(?: |$)(.*)"))
+@borg.on(admin_cmd("promote(?: |$)(.*)"))
 @errors_handler
 async def promote(promt):
     """ For .promote command, promotes the replied/tagged person """
@@ -135,7 +141,7 @@ async def promote(promt):
     await promt.edit("`Promoting...`")
     user, rank = await get_user_from_event(promt)
     if not rank:
-        rank = "admin"  # Just in case.
+        rank = "Admin"  # Just in case.
     if user:
         pass
     else:
@@ -161,7 +167,7 @@ async def promote(promt):
             f"CHAT: {promt.chat.title}(`{promt.chat_id}`)")
 
 
-@borg.on(admin_cmd(pattern=r"demote(?: |$)(.*)"))
+@borg.on(admin_cmd("demote(?: |$)(.*)"))
 @errors_handler
 async def demote(dmod):
     """ For .demote command, demotes the replied/tagged person """
@@ -176,7 +182,7 @@ async def demote(dmod):
 
     # If passing, declare that we're going to demote
     await dmod.edit("`Demoting...`")
-    rank = "admin"  # dummy rank, lol.
+    rank = "admeme"  # dummy rank, lol.
     user = await get_user_from_event(dmod)
     user = user[0]
     if user:
@@ -201,7 +207,7 @@ async def demote(dmod):
     except BadRequestError:
         await dmod.edit(NO_PERM)
         return
-    await dmod.edit("`Demoted this retard Successfully!`")
+    await dmod.edit("`Demoted Successfully! Betterluck next time`")
 
     # Announce to the logging group if we have demoted successfully
     if BOTLOG:
@@ -211,7 +217,7 @@ async def demote(dmod):
             f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)")
 
 
-@borg.on(admin_cmd(pattern=r"ban(?: |$)(.*)"))
+@borg.on(admin_cmd("ban(?: |$)(.*)"))
 @errors_handler
 async def ban(bon):
     """ For .ban command, bans the replied/tagged person """
@@ -253,9 +259,9 @@ async def ban(bon):
     # is done gracefully
     # Shout out the ID, so that fedadmins can fban later
     if reason:
-        await bon.edit(f"Loser `{str(user.id)}` was banned !!\nReason: {reason}")
+        await bon.edit(f"`{str(user.id)}` was banned !!\nReason: {reason}")
     else:
-        await bon.edit(f"Bitch `{str(user.id)}` was banned !!")
+        await bon.edit(f"`{str(user.id)}` was banned !!")
     # Announce to the logging group if we have banned the person
     # successfully!
     if BOTLOG:
@@ -265,7 +271,7 @@ async def ban(bon):
             f"CHAT: {bon.chat.title}(`{bon.chat_id}`)")
 
 
-@borg.on(admin_cmd(pattern=r"unban(?: |$)(.*)"))
+@borg.on(admin_cmd("unban(?: |$)(.*)"))
 @errors_handler
 async def nothanos(unbon):
     """ For .unban command, unbans the replied/tagged person """
@@ -302,80 +308,133 @@ async def nothanos(unbon):
     except UserIdInvalidError:
         await unbon.edit("`Uh oh my unban logic broke!`")
 
+@command(incoming=True)
+async def watcher(event):
+    if is_muted(event.sender_id, event.chat_id):
+        await event.delete()
+        
+@borg.on(admin_cmd("mute ?(\d+)?"))
+async def startmute(event):
+  
+        private = False
+        if event.fwd_from:
+          return
+        elif event.is_private:
+          await event.edit("Unexpected issues or ugly errors may occur!")
+          await asyncio.sleep(3)
+          private = True      
+        reply = await event.get_reply_message()
+        if event.pattern_match.group(1) is not None:
+            userid = event.pattern_match.group(1)
+        elif reply is not None:
+            userid = reply.sender_id
+        elif private is True:
+            userid = event.chat_id
+        else:
+            return await event.edit("Please reply to a user or add their userid into the command to mute them.")
+        chat_id = event.chat_id
+        replied_user = await event.client(GetFullUserRequest(userid))
+        chat = await event.get_chat()
+        if "admin_rights" in vars(chat) and vars(chat)["admin_rights"] is not None: 
+            if chat.admin_rights.delete_messages is True:
+                pass
+            else:
+                return await event.edit("`You can't mute a person if you dont have delete messages permission. ಥ﹏ಥ`")
+        elif "creator" in vars(chat):
+            pass
+        elif private == True:
+            pass
+        else:
+            return await event.edit("`You can't mute a person without admin rights niqq.` ಥ﹏ಥ  ")
+        if is_muted(userid, chat_id):
+            return await event.edit("This user is already muted in this chat ~~lmfao sed rip~~")
+        try:
+            mute(userid, chat_id)
+        except Exception as e:
+            await event.edit("Error occured!\nError is " + str(e))
+        else:
+            await event.edit("Successfully muted that person.\n**｀-´)⊃━☆ﾟ.*･｡ﾟ **")
+        # Announce to logging group    
+        if BOTLOG:
+          await event.client.send_message(
+                    BOTLOG_CHATID, "#MUTE\n"
+                    f"USER: [{replied_user.user.first_name}](tg://user?id={userid})\n"
+                    f"CHAT: {event.chat.title}(`{event.chat_id}`)")   
+    
+@borg.on(admin_cmd("unmute ?(\d+)?"))
+async def endmute(event):   
+        private = False
+        if event.fwd_from:
+          return
+        elif event.is_private:
+          await event.edit("Unexpected issues or ugly errors may occur!")
+          await asyncio.sleep(3)
+          private = True
+        
+        reply = await event.get_reply_message()
+        if event.pattern_match.group(1) is not None:
+            userid = event.pattern_match.group(1)
+        elif reply is not None:
+            userid = reply.sender_id
+        elif private is True:
+            userid = event.chat_id
+        else:
+            return await event.edit("Please reply to a user or add their userid into the command to unmute them.")
+        replied_user = await event.client(GetFullUserRequest(userid))  
+        chat_id = event.chat_id
+        
+        if not is_muted(userid, chat_id):
+            return await event.edit("__This user is not muted in this chat__\n（ ^_^）o自自o（^_^ ）")
+        try:
+            unmute(userid, chat_id)
+        except Exception as e:
+            await event.edit("Error occured!\nError is " + str(e))
+        else:
+            await event.edit("Successfully unmuted that person\n乁( ◔ ౪◔)「    ┑(￣Д ￣)┍")
+        # Announce to logging group    
+        if BOTLOG:
+           await event.client.send_message(
+                    BOTLOG_CHATID, "#UNMUTE\n"
+                    f"USER: [{replied_user.user.first_name}](tg://user?id={userid})\n"
+                    f"CHAT: {event.chat.title}(`{event.chat_id}`)")
 
-@borg.on(admin_cmd(pattern=r"delusers(?: |$)(.*)"))
+
+@register(incoming=True)
 @errors_handler
-async def rm_deletedacc(show):
-    """ For .delusers command, list all the ghost/deleted accounts in a chat. """
-    if not show.is_group:
-        await show.edit("`I don't think this is a group.`")
+async def muter(moot):
+    """ Used for deleting the messages of muted people """
+    try:
+        from userbot.plugins.sql_helper.mute_sql import is_muted
+        from userbot.plugins.sql_helper.gmute_sql import is_gmuted
+    except AttributeError:
         return
-    con = show.pattern_match.group(1)
-    del_u = 0
-    del_status = "`No deleted accounts found, Group is cleaned as Hell`"
-
-    if con != "clean":
-        await show.edit("`Searching for zombie accounts...`")
-        async for user in show.client.iter_participants(show.chat_id,
-                                                        aggressive=True):
-            if user.deleted:
-                del_u += 1
-                await sleep(1)
-        if del_u > 0:
-            del_status = f"Found **{del_u}** deleted account(s) in this group,\
-            \nclean them by using .delusers clean"
-
-        await show.edit(del_status)
-        return
-
-    # Here laying the sanity check
-    chat = await show.get_chat()
-    admin = chat.admin_rights
-    creator = chat.creator
-
-    # Well
-    if not admin and not creator:
-        await show.edit("`I am not an admin here!`")
-        return
-
-    await show.edit("`Deleting deleted accounts...\nOh I can do that?!?!`")
-    del_u = 0
-    del_a = 0
-
-    async for user in show.client.iter_participants(show.chat_id):
-        if user.deleted:
-            try:
-                await show.client(
-                    EditBannedRequest(show.chat_id, user.id, BANNED_RIGHTS))
-            except ChatAdminRequiredError:
-                await show.edit("`I don't have ban rights in this group`")
-                return
-            except UserAdminInvalidError:
-                del_u -= 1
-                del_a += 1
-            await show.client(
-                EditBannedRequest(show.chat_id, user.id, UNBAN_RIGHTS))
-            del_u += 1
-
-    if del_u > 0:
-        del_status = f"Cleaned **{del_u}** deleted account(s)"
-
-    if del_a > 0:
-        del_status = f"Cleaned **{del_u}** deleted account(s) \
-        \n**{del_a}** deleted admin accounts are not removed"
-
-    await show.edit(del_status)
-    await sleep(2)
-    await show.delete()
-
-    if BOTLOG:
-        await show.client.send_message(
-            BOTLOG_CHATID, "#CLEANUP\n"
-            f"Cleaned **{del_u}** deleted account(s) !!\
-            \nCHAT: {show.chat.title}(`{show.chat_id}`)")
+    muted = is_muted(moot.chat_id)
+    gmuted = is_gmuted(moot.sender_id)
+    rights = ChatBannedRights(
+        until_date=None,
+        send_messages=True,
+        send_media=True,
+        send_stickers=True,
+        send_gifs=True,
+        send_games=True,
+        send_inline=True,
+        embed_links=True,
+    )
+    if muted:
+        for i in muted:
+            if str(i.sender) == str(moot.sender_id):
+                await moot.delete()
+                await moot.client(
+                    EditBannedRequest(moot.chat_id, moot.sender_id, rights))
+    for i in gmuted:
+        if i.sender == str(moot.sender_id):
+            await moot.delete()
 
 
-@borg.on(admin_cmd(pattern=r"pin(?: |$)(.*)"))
+
+
+
+@borg.on(admin_cmd("pin(?: |$)(.*)"))
 @errors_handler
 async def pin(msg):
     """ For .pin command, pins the replied/tagged message on the top the chat. """
@@ -421,7 +480,7 @@ async def pin(msg):
             f"LOUD: {not is_silent}")
 
 
-@borg.on(admin_cmd(pattern=r"kick(?: |$)(.*)"))
+@borg.on(admin_cmd("kick(?: |$)(.*)"))
 @errors_handler
 async def kick(usr):
     """ For .kick command, kicks the replied/tagged person from the group. """
@@ -462,6 +521,8 @@ async def kick(usr):
             BOTLOG_CHATID, "#KICK\n"
             f"USER: [{user.first_name}](tg://user?id={user.id})\n"
             f"CHAT: {usr.chat.title}(`{usr.chat_id}`)\n")
+
+
         
 @borg.on(admin_cmd("iundlt$"))
 async def _(event):
@@ -480,6 +541,168 @@ async def _(event):
         await asyncio.sleep(3)
         await event.delete()
 
+@borg.on(sudo_cmd(pattern="(ban|unban) ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    start = datetime.now()
+    to_ban_id = None
+    rights = None
+    input_cmd = event.pattern_match.group(1)
+    if input_cmd == "ban":
+        rights = BANNED_RIGHTS
+    elif input_cmd == "unban":
+        rights = UNBAN_RIGHTS
+    input_str = event.pattern_match.group(2)
+    reply_msg_id = event.reply_to_msg_id
+    if reply_msg_id:
+        r_mesg = await event.get_reply_message()
+        to_ban_id = r_mesg.from_id
+    elif input_str and "all" not in input_str:
+        to_ban_id = int(input_str)
+    else:
+        return False
+    try:
+        await borg(EditBannedRequest(event.chat_id, to_ban_id, rights))
+    except (Exception) as exc:
+        await event.reply(str(exc))
+    else:
+        await event.reply(f"{input_cmd}ned Successfully!")
+
+@borg.on(sudo_cmd(pattern="pgs ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if event.reply_to_msg_id:
+        i = 1
+        msgs = []
+        from_user = None
+        input_str = event.pattern_match.group(1)
+        if input_str:
+            from_user = await borg.get_entity(input_str)
+            logger.info(from_user)
+        async for message in borg.iter_messages(
+            event.chat_id,
+            min_id=event.reply_to_msg_id,
+            from_user=from_user
+        ):
+            i = i + 1
+            msgs.append(message)
+            if len(msgs) == 100:
+                await borg.delete_messages(event.chat_id, msgs, revoke=True)
+                msgs = []
+        if len(msgs) <= 100:
+            await borg.delete_messages(event.chat_id, msgs, revoke=True)
+            msgs = []
+            await event.delete()
+        else:
+            await event.reply("**PURGE** Failed!")
+ 
+@borg.on(sudo_cmd(pattern=r"mute(?: |$)(.*)" ,allow_sudo = True))
+@errors_handler
+async def spider(spdr):
+    try:
+        from userbot.plugins.sql_helper.mute_sql import mute
+    except AttributeError:
+        await spdr.delete()
+        return
+    
+    # Admin or creator check
+    chat = await spdr.get_chat()
+    admin = chat.admin_rights
+    creator = chat.creator
+
+    # If not admin and not creator, return
+    if not admin and not creator:
+        await spdr.reply(NO_ADMIN)
+        return
+
+    user, reason = await get_user_from_event(spdr)
+    if user:
+        pass
+    else:
+        return
+
+    self_user = await spdr.client.get_me()
+
+    if user.id == self_user.id:
+        await spdr.reply(
+            f"Sorry, I can't mute my self")
+        return
+    
+    if mute(spdr.chat_id, user.id) is False:
+        return await spdr.reply(f"Error! User probably already muted.")
+    else:
+        try:
+            await spdr.client(
+                EditBannedRequest(spdr.chat_id, user.id, MUTE_RIGHTS))
+
+            # Announce that the function is done
+            if reason:
+                await spdr.reply(f"{user.first_name} was muted in {spdr.chat.title}\n"
+                                               f"`Reason:`{reason}")
+            else:
+                await spdr.reply(f"{user.first_name} was muted in {spdr.chat.title}")
+
+
+            # Announce to logging group
+            if BOTLOG:
+                await spdr.client.send_message(
+                    BOTLOG_CHATID, "#MUTE\n"
+                    f"USER: [{user.first_name}](tg://user?id={user.id})\n"
+                    f"CHAT: {spdr.chat.title}(`{spdr.chat_id}`)")
+        except UserIdInvalidError:
+            return await spdr.reply("`Uh oh my mute logic broke!`")
+
+
+@borg.on(sudo_cmd(pattern=r"unmute(?: |$)(.*)" ,allow_sudo = True))
+async def unmoot(unmot):
+    """ For .unmute command, unmute the replied/tagged person """
+    # Admin or creator check
+    chat = await unmot.get_chat()
+    admin = chat.admin_rights
+    creator = chat.creator
+
+    # If not admin and not creator, return
+    if not admin and not creator:
+        await unmot.reply(NO_ADMIN)
+        return
+
+    # Check if the function running under SQL mode
+    try:
+        from userbot.plugins.sql_helper.mute_sql import unmute
+    except AttributeError:
+        await unmot.delete()
+        return
+
+    # If admin or creator, inform the user and start unmuting
+    await unmot.edit('```Unmuting...```')
+    user = await get_user_from_event(unmot)
+    user = user[0]
+    if user:
+        pass
+    else:
+        return
+
+    if unmute(unmot.chat_id, user.id) is False:
+        return await unmot.reply("`Error! User probably already unmuted.`")
+    else:
+
+        try:
+            await unmot.client(
+                EditBannedRequest(unmot.chat_id, user.id, UNBAN_RIGHTS))
+            await unmot.reply("Unmuted Successfully")
+        except UserIdInvalidError:
+            await unmot.reply("`Uh oh my unmute logic broke!`")
+            return
+
+        if BOTLOG:
+            await unmot.client.send_message(
+                BOTLOG_CHATID, "#UNMUTE\n"
+                f"USER: [{user.first_name}](tg://user?id={user.id})\n"
+                f"CHAT: {unmot.chat.title}(`{unmot.chat_id}`)")
+
+
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
     args = event.pattern_match.group(1).split(' ', 1)
@@ -492,14 +715,11 @@ async def get_user_from_event(event):
         user = args[0]
         if len(args) == 2:
             extra = args[1]
-
         if user.isnumeric():
             user = int(user)
-
         if not user:
             await event.edit("`Pass the user's username, id or reply!`")
             return
-
         if event.message.entities:
             probable_user_mention_entity = event.message.entities[0]
 
@@ -511,28 +731,27 @@ async def get_user_from_event(event):
         try:
             user_obj = await event.client.get_entity(user)
         except (TypeError, ValueError) as err:
-            await event.edit(str(err))
+            await event.edit("Could not fetch info of that user.")
             return None
-
     return user_obj, extra
 
 
 async def get_user_from_id(user, event):
     if isinstance(user, str):
         user = int(user)
-
     try:
         user_obj = await event.client.get_entity(user)
     except (TypeError, ValueError) as err:
         await event.edit(str(err))
         return None
-
     return user_obj
 
 
 CMD_HELP.update({
     "admin":
-    ".promote <username/reply> <custom rank (optional)>\
+    ".setgpic <reply to image>\
+\nUsage: Changes the group's display picture\
+\n\n.promote <username/reply> <custom rank (optional)>\
 \nUsage: Provides admin rights to the person in the chat.\
 \n\n.demote <username/reply>\
 \nUsage: Revokes the person's admin permissions in the chat.\
@@ -540,12 +759,14 @@ CMD_HELP.update({
 \nUsage: Bans the person off your chat.\
 \n\n.unban <username/reply>\
 \nUsage: Removes the ban from the person in the chat.\
-\n\n.pin <reply to msg>\
-\nUsage: Pin a message in the chat.\
-\n\n.delusers\
-\nUsage: Searches for deleted accounts in a group. Use .delusers clean to remove deleted accounts from the group.\
-\n\n.setgppic <reply to image>\
-\nUsage: Changes the group's display picture.\
+\n\n.mute <username/reply> <reason (optional)>\
+\nUsage: Mutes the person in the chat, works on admins too.\
+\n\n.unmute <username/reply>\
+\nUsage: Removes the person from the muted list.\
+\n\n.pin <reply>\
+\nUsage: Pins the replied message in Group\
+\n\n.kick <username/reply> \
+\nUsage: kick the person off your chat.\
 \n\n.iundlt\
 \nUsage: display last 5 deleted messages in group."
 })

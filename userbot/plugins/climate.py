@@ -14,7 +14,7 @@ from userbot import OPEN_WEATHER_MAP_APPID as OWM_API, CMD_HELP
 from userbot.utils import admin_cmd, errors_handler
 
 # ===== CONSTANT =====
-DEFCITY = 'Calicut'
+DEFCITY = 'Delhi'
 
 
 # ====================

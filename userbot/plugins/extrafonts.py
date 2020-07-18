@@ -1,3 +1,4 @@
+
 import re
 import time
 import requests
@@ -40,4 +41,9 @@ async def stylish_generator(event):
         if normalfontcharacter in fonts.normalfont:
             ancientcharacter = fonts.ancientfont[fonts.normalfont.index(normalfontcharacter)]
             string = string.replace(normalfontcharacter, ancientcharacter)
-    await event.edit(string)
+    await event.edit(string)               
+    
+    
+    
+    
+    

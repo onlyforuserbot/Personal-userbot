@@ -2,7 +2,6 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from telethon import events
 import subprocess
 from telethon.errors import MessageEmptyError, MessageTooLongError, MessageNotModifiedError
 import io
@@ -14,7 +13,6 @@ from telethon import events, functions, __version__
 from userbot.utils import admin_cmd
 from asyncio.subprocess import PIPE as asyncPIPE
 from asyncio import create_subprocess_exec as asyncrunapp
-
 
 if not os.path.isdir("./SAVED"):
      os.makedirs("./SAVED")
@@ -63,6 +61,7 @@ async def pipcheck(pip):
                                "`\n**Result: **\n`No Result Returned/False`")
         else:
             await pip.edit("`Use .help system to see an example`")
+
 	
 @borg.on(admin_cmd(pattern="suicide$"))
 async def _(event):
@@ -84,7 +83,7 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Sᴜʀᴠɪᴠᴏʀ's](tg://need_update_for_some_feature/) SUICIDE BOMB:**\n{o}"
+    OUTPUT = f"**[Cat's](tg://need_update_for_some_feature/) SUICIDE BOMB:**\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
@@ -120,7 +119,7 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Sᴜʀᴠɪᴠᴏʀ's](tg://need_update_for_some_feature/) PLUGINS:**\n{o}\n\n**HELP:** __If you want to know the commands for a plugin, do:-__ \n `.help <plugin name>` **without the < > brackets.**\n__All plugins might not work directly. Visit__ @Sur_vivor __for assistance.__"
+    OUTPUT = f"**[Cat's](tg://need_update_for_some_feature/) PLUGINS:**\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
@@ -156,7 +155,7 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**Date & Time Of India:**\n\n\n{o}"
+    OUTPUT = f"{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
@@ -192,7 +191,7 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT =f"**[Sᴜʀᴠɪᴠᴏʀ's](tg://need_update_for_some_feature/) Environment Module:**\n\n\n{o}"
+    OUTPUT =f"**[Cat's](tg://need_update_for_some_feature/) Environment Module:**\n\n\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
@@ -208,9 +207,12 @@ async def _(event):
     else:
         await event.edit(OUTPUT)
 
+
+
+
 @borg.on(admin_cmd(pattern="fast$"))
 async def _(event):
-    await event.edit("calculating...")
+    await event.edit("calculating...")	
     if event.fwd_from:
         return
     DELAY_BETWEEN_EDITS = 0.3
@@ -229,7 +231,7 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Sᴜʀᴠɪᴠᴏʀ's](tg://need_update_for_some_feature/) , Server Speed Calculated:**\n{o}"
+    OUTPUT = f"**[Cat's](tg://need_update_for_some_feature/) , Server Speed Calculated:**\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
@@ -244,6 +246,9 @@ async def _(event):
             await event.delete()
     else:
         await event.edit(OUTPUT)
+
+
+
 
 @borg.on(admin_cmd(pattern="fortune$"))
 async def _(event):

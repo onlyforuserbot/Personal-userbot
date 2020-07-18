@@ -140,4 +140,4 @@ CMD_HELP.update({
     \nUsage: Stops the specified keyword.\
     \n\n.clearallfilters \
     \nUsage: Removes all filters of your userbot in the chat."
-})
+})    

@@ -50,4 +50,4 @@ CMD_HELP.update({
     "`.digitalpfp`\
 \nUSAGE:Your profile pic changes to digitaltime profile picutre \
 "
-})
+})            

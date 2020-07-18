@@ -186,4 +186,4 @@ CMD_HELP.update({
      \nUSAGE : will return file details\
      \n\nSimple Module for people who dont wanna use shell executor for listing files.\
 "
-})
+}) 

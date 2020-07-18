@@ -1,3 +1,5 @@
+#https://github.com/jisan009bot/catuserbot credits to @Jisan7509
+
 from telethon import events
 import asyncio
 from userbot.utils import admin_cmd
@@ -108,8 +110,8 @@ async def _(event):
             "😧",
             "😡",
             "😢",
-            "[CAT IS BEST](https://github.com/Sur-vivor/CatUserbot)",
-            "__**Good to See you Guys....**__"
+            "[‎](github.com/sandy1709/catuserbot)",
+            "__**Good to See you guys....**__"
         ]
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
@@ -127,7 +129,7 @@ async def _(event):
             "😁🏽",
             "😁🏼",
             "‎😁",
-            "**Good to See you Guys....**"
+            "**Good to See you friend....**"
         ]
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
@@ -145,7 +147,7 @@ async def _(event):
             "🙈",
             "🙊",
             "🖕‎🐵🖕",
-            "**Good to See you Guys....**"
+            "**Good to See you friend....**"
         ]
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
@@ -250,4 +252,6 @@ async def _(event):
         ]
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
-            await event.edit(animation_chars[i % 18])
+            await event.edit(animation_chars[i % 18])  
+            
+            

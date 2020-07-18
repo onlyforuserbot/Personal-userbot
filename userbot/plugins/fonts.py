@@ -10,6 +10,8 @@ import random
 
 @borg.on(admin_cmd(pattern="vapor(?: |$)(.*)"))
 async def vapor(vpr):
+    """ Vaporize everything! """
+    if not vpr.text[0].isalpha() and vpr.text[0] not in ("/", "#", "@", "!"):
         reply_text = list()
         textx = await vpr.get_reply_message()
         message = vpr.pattern_match.group(1)
@@ -136,4 +138,4 @@ CMD_HELP.update({
     "fonts": ".vapor (text) or .vapor reply to message \
 \nUsage: Vaporize the given text. \
 "
-})
+})    

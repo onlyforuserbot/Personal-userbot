@@ -13,6 +13,7 @@ from telethon.utils import get_input_location
 from userbot.utils import admin_cmd
 from telethon.tl import functions
 from telethon import events
+from userbot.utils import admin_cmd
 from telethon.errors import ImageProcessFailedError, PhotoCropSizeSmallError
 from telethon.errors.rpcerrorlist import (PhotoExtInvalidError,
                                           UsernameOccupiedError)
@@ -26,7 +27,7 @@ from telethon.tl.types import InputPhoto, MessageMediaPhoto, User, Chat, Channel
 from userbot import bot, CMD_HELP , AUTONAME , DEFAULT_BIO , ALIVE_NAME
 
 DEFAULTUSER = str(AUTONAME) if AUTONAME else str(ALIVE_NAME)
-DEFAULTUSERBIO = str(DEFAULT_BIO) if DEFAULT_BIO else "ǝɔɐds ǝʇɐʌıɹd ǝɯos ǝɯ ǝʌı⅁˙ oıq ɹoɟ ɓuıʞuıɥʇ uɐɯ ʇıɐM"
+DEFAULTUSERBIO = str(DEFAULT_BIO) if DEFAULT_BIO else "sıɥʇ ǝpoɔǝp uǝɥʇ llıʇu∩ ˙ ǝɔɐds ǝʇɐʌıɹd ǝɯos ǝɯ ǝʌı⅁˙ oıq ɹoɟ ɓuıʞuıɥʇ uɐɯ ʇıɐM"
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 BOTLOG = True
 
@@ -58,7 +59,7 @@ async def _(event):
     # inspired by https://telegram.dog/afsaI181
     user_bio = replied_user.about
     if user_bio is not None:
-        user_bio = html.escape(replied_user.about)
+        user_bio = replied_user.about
     await borg(functions.account.UpdateProfileRequest(
         first_name=first_name
     ))
@@ -90,8 +91,8 @@ async def _(event):
     bio = f"{DEFAULTUSERBIO}"
     n = 1
     await borg(functions.photos.DeletePhotosRequest(await event.client.get_profile_photos("me", limit= n)))    
-    await borg(functions.account.UpdateProfileRequest(about=bio))
-    await borg(functions.account.UpdateProfileRequest(first_name=name))
+    await borg(functions.account.UpdateProfileRequest(about=f"{bio}"))
+    await borg(functions.account.UpdateProfileRequest(first_name=f"{name}"))
     await event.edit("succesfully reverted to your account back")
     if BOTLOG:
         await event.client.send_message(BOTLOG_CHATID, f"#REVERT\nSuccesfully reverted back to your profile")
@@ -121,7 +122,7 @@ async def get_full_user(event):
             input_str = event.pattern_match.group(1)
         except IndexError as e:
             return None, e
-        if event.message.entities:
+        if event.message.entities is not None:
             mention_entity = event.message.entities
             probable_user_mention_entity = mention_entity[0]
             if isinstance(probable_user_mention_entity, MessageEntityMentionName):

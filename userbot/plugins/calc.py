@@ -55,4 +55,4 @@ async def aexec(code, event):
 
 CMD_HELP.update({"calc": "`.calc` your equation :\
       \nUSAGE: solves the given maths equation by bodmass rule. "
-})
+}) 

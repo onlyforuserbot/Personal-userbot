@@ -7,7 +7,7 @@ from userbot import CMD_HELP
 from collections import deque
 import importlib.util
 import random
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "Cat"
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
 
 @borg.on(admin_cmd(pattern="stupid$"))
 async def _(event):
@@ -156,7 +156,6 @@ async def _(event):
             "⬜⬜⬛⬜⬜\n⬜⬜⬛⬜⬜\n⬜⬜🔴⬜⬜",
             "⬜⬜⬛⬜⬜\n⬜⬛⬜⬜⬜\n🔴⬜⬜⬜⬜",
             "🔴⬛⬛⬜⬜\n⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜",
-	    "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜\n⬜  [CAT IS BEST](https://github.com/Sur-vivor/CatUserbot) ⬜\n⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"
             
  ]
     if event.fwd_from:
@@ -195,7 +194,17 @@ async def _(event):
     for i in animation_ttl:
             await asyncio.sleep(animation_interval)
             await event.edit(animation_chars[i % 15])
-				
+		
+@borg.on(admin_cmd(pattern=r"candy$"))
+async def _(event):
+	if event.fwd_from:
+		return
+	deq = deque(list("🍦🍧🍩🍪🎂🍰🧁🍫🍬🍭"))
+	for _ in range(999):
+		await asyncio.sleep(0.4)
+		await event.edit("".join(deq))
+		deq.rotate(1)
+		
 @borg.on(admin_cmd(pattern="gangasta$"))
 async def _(event):
         await event.edit("EVERyBOdy")
