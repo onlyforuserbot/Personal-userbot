@@ -7,16 +7,16 @@
  One of the main components of the userbot. """
 
 import sys
-from asyncio import create_subprocess_shell as asyncsubshell
+
 from asyncio import subprocess as asyncsub
-from os import remove
+from os 
 from time import gmtime, strftime
 from traceback import format_exc
 
 from telethon import events
 
 from userbot import bot, BOTLOG, BOTLOG_CHATID, LOGS
-from userbot.modules.dbhelper import get_exclude
+
 
 
 def register(**args):
