@@ -12,7 +12,8 @@ import speedtest
 from telethon import functions
 
 from userbot import CMD_HELP
-from userbot.events import register, grp_exclude
+from userbot.events import register
+from userbot.utils import grp_exclude
 
 
 @register(outgoing=True, pattern="^.speed$")
