@@ -26,7 +26,6 @@ async def amireallyalive(alive):
     uptime = await catdef.get_readable_time((time.time() - StartTime))
     if alive.reply_to_msg_id:
         reply_to_id = await alive.get_reply_message()
-
     if CAT_IMG:
          cat_caption  = f"**🅿🅴🆁🆂🅾🅽🅰🅻 🅰🆂🆂🅸🆂🆃🅰🅽🆃 🆁🆄🅽🅽🅸🅽🅶 🆂🆄🅿🅴🆁🅵🅸🅽🅴**\n\n"
          cat_caption += f"**∂αтαвαѕє ѕтαтυѕ: (っ◔◡◔)っ ♥ Databases functioning normally!\n**"   
@@ -55,12 +54,12 @@ async def _(event):
         return
     uptime = await catdef.get_readable_time((time.time() - StartTime))
     await event.reply(" SUDO COMMANDS ARE WORKING PERFECTLY \n\n"
-                     f"☞Telethon version: {version.__version__}\n"
-                     f"☞Python: {python_version()}\n"
-                     f"☞My peru owner: {DEFAULTUSER}\n"
-                     f"**uptime :** `{uptime}\n`"
-                     #"Deploy this userbot Now"
-                    )
+                      f"☞Telethon version: {version.__version__}\n"
+                      f"☞Python: {python_version()}\n"
+                      f"☞My peru owner: {DEFAULTUSER}\n"
+                      f"**uptime :** `{uptime}\n`"
+                      #"Deploy this userbot Now"
+                     )
 
 @borg.on(admin_cmd(pattern="cat$"))
 async def _(event):
