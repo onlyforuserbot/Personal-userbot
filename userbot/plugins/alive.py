@@ -47,7 +47,8 @@ async def amireallyalive(alive):
                          "**𝐈'𝐦 𝐡𝐞𝐫𝐞 𝐭𝐨 𝐡𝐞𝐥𝐩 𝐲𝐨𝐮, 𝐦𝐲 𝐦𝐚𝐬𝐭𝐞𝐫!\n**"
                          f"☞My Master: {DEFAULTUSER}\n"
                          f"☞uptime : `{uptime}\n`"
-                        )         
+                        )    
+	
 @borg.on(sudo_cmd(pattern="sudo", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
