@@ -1,13 +1,17 @@
 """Check if userbot alive or not . """
 import os
-import time
-import asyncio
+import asyncio , time
 from telethon import events
 from userbot import StartTime
+from platform import uname
 from userbot import ALIVE_NAME, CMD_HELP, catdef, catversion
 from userbot.utils import admin_cmd
 from telethon import version
 from platform import python_version, uname
+import requests
+import re
+from PIL import Image
+import nekos
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@Smart_S54"
 
@@ -44,6 +48,34 @@ async def amireallyalive(alive):
                          f"☞My Master: {DEFAULTUSER}\n"
                          f"☞uptime : `{uptime}\n`"
                         )         
+@borg.on(sudo_cmd(pattern="sudo", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    uptime = await catdef.get_readable_time((time.time() - StartTime))
+    await event.reply(" SUDO COMMANDS ARE WORKING PERFECTLY \n\n"
+                     f"☞𝐓𝐞𝐥𝐞𝐭𝐡𝐨𝐧 𝐯𝐞𝐫𝐬𝐢𝐨𝐧 : `{version.__version__}\n"
+                     f"☞𝐏𝐲𝐭𝐡𝐨𝐧 𝐕𝐞𝐫𝐬𝐢𝐨𝐧 : `{python_version()}\n"
+                     f"☞My Master: {DEFAULTUSER}\n"
+                     f"**uptime :** `{uptime}\n`"
+                     #"Deploy this userbot Now"
+                    )
+
+@borg.on(admin_cmd(pattern="cat$"))
+async def _(event):
+    await event.delete() 
+    reply_to_id = event.message
+    if event.reply_to_msg_id:
+        reply_to_id = await event.get_reply_message()
+    with open("temp.png", "wb") as f:
+        f.write(requests.get(nekos.cat()).content)
+    img = Image.open("temp.png")
+    img.save("temp.webp", "webp")
+    img.seek(0)
+    await bot.send_file(event.chat_id , open("temp.webp", "rb"),reply_to=reply_to_id) 
+    
 CMD_HELP.update({"alive": "`.alive` :\
-      \nUSAGE: Type .alive to see wether your bot is working or not. "
+      \nUSAGE: Type .alive to see wether your bot is working or not.\
+      \n\n`.cat`\
+      \n**USAGE : **Random cat stickers"
 })
