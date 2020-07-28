@@ -5,7 +5,7 @@ from telethon import events
 from userbot import StartTime
 from platform import uname
 from userbot import ALIVE_NAME, CMD_HELP, catdef, catversion
-from userbot.utils import admin_cmd,SUDO_CMD
+from userbot.utils import admin_cmd,sudo_cmd
 from telethon import version
 from platform import python_version, uname
 import requests
