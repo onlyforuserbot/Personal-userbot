@@ -1,27 +1,27 @@
 
-# CAT USERBOT
+# PERSONAL ASSISTANT
 
 ### The Easy Way to deploy the bot
 Get APP ID and API HASH from [HERE](https://my.telegram.org) and BOT TOKEN from [Bot Father](https://t.me/botfather) and then Generate stringsession by clicking on run.on.repl.it button below and then click on deploy to heroku . Before clicking on deploy to heroku just click on fork and star just below
 
 [![Get string session](https://repl.it/badge/github/sandy1709/sandeep1709)](https://generatestringsession.sandeep1709.repl.run/)
 
-[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/onlyforuserbot/Personal-userbot)
 <p align="center">
-  <a href="https://github.com/sandy1709/catuserbot/fork">
-    <img src="https://img.shields.io/github/forks/sandy1709/catuserbot?label=Fork&style=social">
+  <a href="https://github.com/onlyforuserbot/Personal-userbot/fork">
+    <img src="https://img.shields.io/github/forks/onlyforuserbot/Personal-userbot?label=Fork&style=social">
     
   </a>
-  <a href="https://github.com/sandy1709/catuserbot">
-    <img src="https://img.shields.io/github/stars/sandy1709/catuserbot?style=social">
+  <a href="https://github.com/onlyforuserbot/Personal-userbot">
+    <img src="https://img.shields.io/github/stars/onlyforuserbot/Personal-userbot?style=social">
   </a>
 </p>
 
 
-[![catuserbot logo](https://telegra.ph/file/7e1e89621fabbf02596f8.jpg)](https://heroku.com/deploy)
+[![catuserbot logo](https://telegra.ph/file/fb646171e440653832015.jpg)](https://heroku.com/deploy)
 
 
-### Join [here](https://t.me/catuserbot17) for updates and tuts and [here](https://t.me/catuserbot_support) for discussion and bugs
+### Join [here](https://t.me/Smart_S54) for updates and tuts and [here](https://t.me/Smart_S54) for discussion and bugs
 
 ### The Normal Way
 
