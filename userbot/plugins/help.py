@@ -1,11 +1,11 @@
-from userbot import CMD_LIST
+from userbot import CMD_LIST, SUDO_LIST
 from userbot import ALIVE_NAME
-from userbot.utils import admin_cmd
+from userbot.utils import admin_cmd, sudo_cmd
 from platform import uname
 import sys
 from telethon import events, functions, __version__
 
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "@Sur_vivor"
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
 
 @borg.on(admin_cmd(pattern="help ?(.*)"))
 async def cmd_list(event):
@@ -14,28 +14,19 @@ async def cmd_list(event):
         if tgbotusername is None or input_str == "text":
             string = ""
             for i in CMD_LIST:
-                string += "⚡️" + i + "\n"
+                string += "⚚" + i + "\n"
                 for iter_list in CMD_LIST[i]:
                     string += "    `" + str(iter_list) + "`"
                     string += "\n"
                 string += "\n"
             if len(string) > 4095:
-                with io.BytesIO(str.encode(string)) as out_file:
-                    out_file.name = "cmd.txt"
-                    await bot.send_file(
-                        event.chat_id,
-                        out_file,
-                        force_document=True,
-                        allow_cache=False,
-                        caption="**COMMANDS**",
-                        reply_to=reply_to_id
-                    )
-                    await event.delete()
+                await borg.send_message(event.chat_id, "Do .help cmd")
+                await asyncio.sleep(5)
             else:
                 await event.edit(string)
         elif input_str:
             if input_str in CMD_LIST:
-                string = "Commands found in {}:".format(input_str)
+                string = "Commands found in {}:\n".format(input_str)
                 for i in CMD_LIST[input_str]:
                     string += "    " + i
                     string += "\n"
@@ -43,8 +34,8 @@ async def cmd_list(event):
             else:
                 await event.edit(input_str + " is not a valid plugin!")
         else:
-            help_string = f"""Userbot Helper.. Provided by ✨{DEFAULTUSER}✨ \n
-`Userbot Helper to reveal all the commands`\n__Do .help plugin_name for commands, in case popup doesn't appear.__"""
+            help_string = f"""Userbot Helper.. Provided by {DEFAULTUSER} \n
+Userbot Helper to reveal all the commands\n__Do `.help` plugin_name for commands, in case popup doesn't appear.__\nDo `.info` plugin_name for usage"""
             results = await bot.inline_query(  # pylint:disable=E0602
                 tgbotusername,
                 help_string
@@ -55,7 +46,7 @@ async def cmd_list(event):
                 hide_via=True
             )
             await event.delete()
-            
+
 @borg.on(admin_cmd(pattern="dc"))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
@@ -63,33 +54,27 @@ async def _(event):
     result = await borg(functions.help.GetNearestDcRequest())  # pylint:disable=E0602
     await event.edit(result.stringify())
 
-
-@borg.on(admin_cmd(pattern="config"))  # pylint:disable=E0602
-async def _(event):
+@borg.on(sudo_cmd(allow_sudo=True, pattern="help(?: |$)(.*)"))
+async def info(event):
     if event.fwd_from:
         return
-    result = await borg(functions.help.GetConfigRequest())  # pylint:disable=E0602
-    result = result.stringify()
-    logger.info(result)  # pylint:disable=E0602
-    await event.edit("""Telethon UserBot powered by CatUserbot""")
-
-
-@borg.on(admin_cmd(pattern="syntax (.*)"))
-async def _(event):
-    if event.fwd_from:
-        return
-    plugin_name = event.pattern_match.group(1)
-
-    if plugin_name in CMD_LIST:
-        help_string = CMD_LIST[plugin_name].__doc__
-        unload_string = f"Use `.unload {plugin_name}` to remove this plugin.\n           © CatUserbot"
-        
-        if help_string:
-            plugin_syntax = f"Syntax for plugin **{plugin_name}**:\n\n{help_string}\n{unload_string}"
+    """ For .info command,"""
+    args = event.pattern_match.group(1).lower()
+    input_str = event.pattern_match.group(1)
+    if args:
+        if args in SUDO_LIST:
+            if input_str in SUDO_LIST:
+                string = "Commands found in {}:\n".format(input_str)
+                for i in SUDO_LIST[input_str]:
+                    string += "    " + i
+                    string += "\n"
+                await event.reply(string)
         else:
-            plugin_syntax = f"No DOCSTRING has been setup for {plugin_name} plugin."
+                await event.reply(args + " is not a valid plugin!")
     else:
-
-        plugin_syntax = "Enter valid **Plugin** name.\nDo `.plinfo` or `.help` to get list of valid plugin names."
-
-    await event.edit(plugin_syntax)
+        string = "**Please specify which plugin do you want help for !!**\
+            \n**Usage:** `.info` <plugin name>\n\n"
+        for i in sorted(SUDO_LIST):
+            string += "◆`" + str(i)
+            string += "`   "
+        await event.reply(string)

